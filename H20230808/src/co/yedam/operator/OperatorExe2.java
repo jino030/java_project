@@ -23,8 +23,8 @@ public class OperatorExe2 {
 				System.out.print("입금액 입력 >>> ");
 				int value = Integer.parseInt(scn.nextLine());
 				
-				if(balance + value > 100000) {
-					System.out.println("10만원 이상은 입금할 수 없습니다.");
+				if(balance + value > 100000 || value < 0) {
+					System.out.println("입금불가");
 					System.out.println("현재 잔고 = " + balance);
 					break;
 				} else {
