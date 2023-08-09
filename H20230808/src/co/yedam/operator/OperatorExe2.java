@@ -24,7 +24,7 @@ public class OperatorExe2 {
 				int value = Integer.parseInt(scn.nextLine());
 				
 				if(balance + value > 100000 || value < 0) {
-					System.out.println("입금불가");
+					System.out.println("입금 불가 ㄴㅇ0ㅇㄱ");
 					System.out.println("현재 잔고 = " + balance);
 					break;
 				} else {
@@ -37,8 +37,8 @@ public class OperatorExe2 {
 				int value = Integer.parseInt(scn.nextLine());
 				
 				
-				if(balance - value < 0) {
-					System.out.println("잔액이 부족합니다.");
+				if(balance < value || value < 0) {
+					System.out.println("출금 불가 ㅡㅡ;;");
 					break;
 				} else {
 					balance -= value;
