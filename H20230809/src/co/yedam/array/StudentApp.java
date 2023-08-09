@@ -13,13 +13,13 @@ public class StudentApp {
 		Scanner scan = new Scanner(System.in);
 		int idx = 0;
 		
-		System.out.println("또잉");
 		while(true) {
-			System.out.println(	"\n =============================================== ");
-			System.out.println("  1. 학생 등록 | 2. 성적 조회 | 3. 학생 목록 | 4. 종료  ");
-			System.out.println(" =============================================== ");
+			System.out.println("");
+			System.out.println("=============================================== ");
+			System.out.println(" 1. 학생 등록 | 2. 성적 조회 | 3. 학생 목록 | 4. 종료  ");
+			System.out.println("=============================================== ");
 			
-			System.out.print(" 입력> ");
+			System.out.print("입력 > ");
 			int num = scan.nextInt();
 			
 			switch(num) {
@@ -27,10 +27,10 @@ public class StudentApp {
 				// 학생 등록
 				Student st = new Student();
 				
-				System.out.print(" 이름 입력> ");
+				System.out.print("이름 입력 > ");
 				st.name = scan.next();
 				
-				System.out.print(" 점수 입력> ");
+				System.out.print("점수 입력 > ");
 				st.score = scan.nextInt();
 				
 				students[idx] = st;
@@ -40,15 +40,19 @@ public class StudentApp {
 				
 			case 2 :
 				// 이름을 입력하면 점수를 출력
-				String name = scan.nextLine();
+				System.out.print("학생 이름 > ");
+				String name = scan.next();
 				
-//				for() {
-//					
-//				}
+				for(int i=0; i<idx; i++) {
+					String arrName = students[i].name;
+					
+					if(arrName.equals(name)) {
+						System.out.println( ">>> " + arrName + "학생의 점수는 [" 
+											+ students[i].score + "점] 입니다.");
+					}
+				}
 				
-				System.out.println("미완성");
-				
-				break;
+				continue;
 				
 			case 3 :
 				// 전체 목록 출력
@@ -71,8 +75,7 @@ public class StudentApp {
 			break;
 		}
 		
-		System.out.println("end of prog...");
-		
+		System.out.println("\n:::::::::: 프로그램을 종료합니다 ::::::::::");
 		
 	}
 
