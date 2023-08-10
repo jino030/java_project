@@ -1,14 +1,5 @@
 package co.yedam.array;
 
-import java.util.Arrays;
-
-/*
- *	학생 클래스 
- */
-class Student {
-	String name;
-	int score;
-}
 
 public class ArrayExe3 {
 
