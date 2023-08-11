@@ -1,6 +1,5 @@
 package co.yedam.array;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TodoApp {
@@ -66,40 +65,38 @@ public class TodoApp {
 			} else if (menu == 3) {
 				System.out.print("조회 >> ");
 				String[] date = scan.nextLine().split(",");
-				int[] todoNums = new int[date.length];
 
-				// date배열에 담긴 날짜와 일치하는 항목의 번호 가져오기
+				// 정렬위한 배열생성
+				Todo[] sortAry = new Todo[date.length];
+
 				for (int i = 0; i < date.length; i++) {
-					for (int j = 0; j < todos.length; i++) {
+					for (int j = 0; j < todos.length; j++) {
 						if (todos[j] != null && date[i].equals(todos[j].dueDate)) {
-							todoNums[i] = todos[j].no;
+							// 일치하는 데이터 정렬을 위해 새로운 배열에 담아두기
+							sortAry[i] = todos[j];
 						}
 					}
 				}
-				// Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3
-				// out of bounds for length 3
-				// at co.yedam.array.TodoApp.main(TodoApp.java:74)
 
-				// 번호 정렬
-				for (int j = 0; j < todoNums.length - 1; j++) {
-					for (int i = 0; i < todoNums.length - 1; i++) {
-						if (todoNums[i] > todoNums[i + 1]) {
-							int tmp = todoNums[i];
-							todoNums[i] = todoNums[i + 1];
-							todoNums[i + 1] = tmp;
+				// 일치하는 데이터 정렬
+				for (int i = 0; i < sortAry.length - 1; i++) {
+					if (sortAry[i] != null) {
+						for (int j = 0; j < sortAry.length - 1; j++) {
+							Todo tmp = new Todo();
+							if (sortAry[j] != null && sortAry[j].no > sortAry[j + 1].no) {
+								tmp = sortAry[j];
+								sortAry[j] = sortAry[j + 1];
+								sortAry[j + 1] = tmp;
+							}
 						}
 					}
 				}
-				System.out.println(Arrays.toString(todoNums));
 
-				// date배열에 담긴 날짜와 일치하는 날짜의 정보를 새로운 배열에 담기, 그리고 정렬
-				// date배열에 담긴 날짜와 일치하는 날짜의 정보 출력
-				for (int j = 0; j < date.length; j++) {
-					for (int i = 0; i < todos.length; i++) {
-						if (todos[i] != null && date[j].equals(todos[i].dueDate)) {
-							System.out.printf("%d. %s (%s) %s\n", todos[i].no, todos[i].todo, todos[i].dueDate,
-									todos[i].done == true ? "완료" : "미완료");
-						}
+				// 출력
+				for (int i = 0; i < sortAry.length; i++) {
+					if (sortAry[i] != null) {
+						System.out.printf("%d. %s (%s) %s\n", sortAry[i].no, sortAry[i].todo, sortAry[i].dueDate,
+								sortAry[i].done == true ? "완료" : "미완료");
 					}
 				}
 
@@ -113,14 +110,14 @@ public class TodoApp {
 				}
 
 				// -1하는 이유는 : 마지막값은 비교대상이 없으므로!!마지막값을 다음값과 비교하게되면 null예외 발생!
-				for (int j = 0; j < cnt - 1; j++) {
-					if (todos[j] != null) {
-						for (int i = 0; i < cnt - 1; i++) {
+				for (int i = 0; i < cnt - 1; i++) {
+					if (todos[i] != null) {
+						for (int j = 0; j < cnt - 1; j++) {
 							Todo tmp = new Todo();
-							if (todos[i] != null && todos[i].no > todos[i + 1].no) {
-								tmp = todos[i];
-								todos[i] = todos[i + 1];
-								todos[i + 1] = tmp;
+							if (todos[j] != null && todos[j].no > todos[j + 1].no) {
+								tmp = todos[j];
+								todos[j] = todos[j + 1];
+								todos[j + 1] = tmp;
 							}
 						}
 					}
@@ -150,12 +147,12 @@ public class TodoApp {
 			nums[i] = todos[i].no;
 		}
 
-		for (int j = 0; j < nums.length; j++) {
-			for (int i = 0; i < nums.length - 1; i++) {
-				if (nums[i] > nums[i + 1]) {
-					int tmp = nums[i];
-					nums[i] = nums[i + 1];
-					nums[i + 1] = tmp;
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = 0; j < nums.length - 1; j++) {
+				if (nums[j] > nums[j + 1]) {
+					int tmp = nums[j];
+					nums[j] = nums[j + 1];
+					nums[j + 1] = tmp;
 				}
 			}
 		}
