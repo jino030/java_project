@@ -17,7 +17,6 @@ public class BoardApp {
 		String body = printMsgString("내용");
 		String user = printMsgString("작성자");
 
-		System.out.println(no);
 		board.setNo(no + 1);
 		board.setTitle(title);
 		board.setBody(body);
@@ -66,15 +65,15 @@ public class BoardApp {
 	// 상세보기
 	void showDetail() {
 		int no = printMsgInt("글번호");
-
+		int cnt = 0;
 		for (int i = 0; i < boards.length; i++) {
 			if (boards[i] != null && no == boards[i].getNo()) {
 				System.out.println(boards[i].toString());
-				break;
-			} else {
-				System.out.println("삭제되었거나 존재하지 않는 글번호 입니다.");
-				break;
+				cnt++;
 			}
+		}
+		if (cnt == 0) {
+			System.out.println("삭제되었거나 존재하지 않는 글번호 입니다.");
 		}
 	}
 
