@@ -1,5 +1,6 @@
 package co.yedam.friend;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class FriendApp {
@@ -16,8 +17,15 @@ public class FriendApp {
 		while (run) {
 			System.out.println("\n| 1.추가 | 2.조회 | 3.수정 | 4.삭제 | 5.종료 |");
 			System.out.print("선택 >> ");
-			menu = scn.nextInt(); // [3 엔터] 치면 엔터가 처리안되고 남아있게 됨.
-			scn.nextLine(); // 엔터키를 소진시켜주는 코드가 필요.
+			try {
+				menu = scn.nextInt(); // [3 엔터] 치면 엔터가 처리안되고 남아있게 됨.
+			} catch (InputMismatchException e) {
+				// 예외를 만나게되면 menu의 값은 -1
+				// System.out.println("숫자만 입력가능합니다.");
+				// continue;
+			} finally {
+				scn.nextLine(); // 엔터키를 소진시켜주는 코드
+			}
 
 			switch (menu) {
 			case 1:
@@ -38,7 +46,7 @@ public class FriendApp {
 				break;
 
 			default:
-				System.out.println("잘못된 매뉴입니다.");
+				System.out.println("잘못된 메뉴입니다.");
 			}
 
 		}
@@ -52,10 +60,26 @@ public class FriendApp {
 
 	// 등록
 	private void addFriend() {
-		System.out.println("| 1.학교 | 2.회사 | 3.기타 |");
-		System.out.print("선택 >> ");
-		int subMenu = scn.nextInt();
-		scn.nextLine(); // 엔터 처리
+		int subMenu = -1;
+		boolean run = true;
+		while (run) {
+			System.out.println("| 1.학교 | 2.회사 | 3.기타 |");
+			System.out.print("선택 >> ");
+
+			try {
+				subMenu = scn.nextInt();
+				if(subMenu<0 || subMenu>3) {
+					System.out.println("<<없는 메뉴번호>> 메뉴번호를 확인하세요!!");
+					continue;
+				}
+				run = false;
+			} catch (InputMismatchException e) {
+				System.out.println("숫자만 입력가능합니다.");
+				continue;
+			} finally {
+				scn.nextLine(); // 엔터 처리
+			}
+		}
 
 		Friend friend = null;
 		String name = printString("이름입력");
