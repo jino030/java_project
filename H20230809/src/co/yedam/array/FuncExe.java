@@ -17,7 +17,7 @@ public class FuncExe {
 		int result2 = sum(intAry);
 		System.out.println(result2);
 		
-		Friend f = getFriend("정재륜","큐티짱짱",Gender.WOMEN);
+		Friend f = getFriend("륜언니","큐티짱짱",Gender.WOMEN);
 		f.showInfo();
 	}
 	
