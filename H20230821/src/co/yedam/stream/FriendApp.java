@@ -70,10 +70,11 @@ public class FriendApp {
 	}
 
 	private void saveFile() {
+		File file = new File("C:/temp/friendList.txt");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		// friends 컬렉션에 있는 값 => 텍스트로 저장
 		try {
-			FileWriter fw = new FileWriter("C:/temp/friendList.txt");
+			FileWriter fw = new FileWriter(file); // 여기에 바로 파일 경로를 적어도 됨.
 			for (Friend fnd : friends) {
 				String line = fnd.getName() + " " + fnd.getPhone() + " " + sdf.format(fnd.getBirth());
 				fw.write(line + "\n");
@@ -87,7 +88,7 @@ public class FriendApp {
 	}
 
 	public void loadFile() {
-		File file = new File("C:/temp/friendList.txt"); // 파일경로
+		File file = new File("C:/temp/friendList.txt"); // 파일의 정보(Scanner 등 사용시 매개변수로 사용가능)
 		Scanner scn = null;
 		try {
 			scn = new Scanner(file); // 파일읽어오기
