@@ -7,26 +7,26 @@ import java.util.Scanner;
 public class BoardApp {
 
 	Scanner scn = new Scanner(System.in);
-	BoardService service = new BoardServiceImpl(); // 방식에따라 구현체만 변경해주면 된다.
+	BoardService service = new BoardServiceJdbc(); // 방식에따라 구현체만 변경해주면 된다.
 	UserService uservice = new UserServiceImpl();
 	String id = "";
 
 	public void start() {
 		// 사용자 체크
-		while(true){
-			User user = new User();
-			id = printString("id");
-			String pw = printString("pw");
-			user.setId(id);
-			user.setPw(pw);
-			
-			if(uservice.checkLogin(user)) {
-				System.out.println("[O] 로그인 성공!\n");
-				break;
-			}
-			System.out.println("[X] 로그인 실패!\n");
-		}
-		
+//		while(true){
+//			User user = new User();
+//			id = printString("id");
+//			String pw = printString("pw");
+//			user.setId(id);
+//			user.setPw(pw);
+//			
+//			if(uservice.checkLogin(user)) {
+//				System.out.println("[O] 로그인 성공!\n");
+//				break;
+//			}
+//			System.out.println("[X] 로그인 실패!\n");
+//		}
+
 		boolean run = true;
 
 		while (run) {
@@ -77,7 +77,7 @@ public class BoardApp {
 	void register() {
 		String title = printString("제목입력");
 		String content = printString("내용입력");
-		//String writer = printString("작성자입력");
+		// String writer = printString("작성자입력");
 		System.out.println("작성자: " + id);
 		Board board = new Board(title, content, id);
 
@@ -102,7 +102,7 @@ public class BoardApp {
 
 			System.out.print("\t");
 			for (int i = 1; i <= lastPage; i++) {
-				if(i == page) {
+				if (i == page) {
 					System.out.printf("[%d] ", i);
 				} else {
 					System.out.printf("%2d ", i);
@@ -110,7 +110,6 @@ public class BoardApp {
 			}
 			System.out.print("\n   <<페이지(exit:99)>> ");
 			page = scn.nextInt();
-			
 
 			if (page == 99) {
 				break;
@@ -122,12 +121,18 @@ public class BoardApp {
 	void modify() {
 		String brdNo = printString("번호입력");
 		String content = printString("내용입력");
+		System.out.println("here1");
 		Board brd = new Board();
+		System.out.println("here2");
 		brd.setBrdNo(Integer.parseInt(brdNo));
+		System.out.println("here3");
 		brd.setBrdContent(content);
+		System.out.println("here4");
 
 		if (service.modify(brd)) { // 정상적으로 수정되면 true, 아니면 false 반환
 			System.out.println("정상적으로 수정되었습니다.");
+		} else {
+			System.out.println("수정 실패..");
 		}
 	}
 
@@ -141,6 +146,10 @@ public class BoardApp {
 	void boardDetail() {
 		String brdNo = printString("번호입력");
 		Board result = service.search(Integer.parseInt(brdNo));
-		System.out.println(result.showInfo());
+		if (result == null) {
+			System.out.println("해당글번호가 없습니다.");
+		} else {
+			System.out.println(result.showInfo());
+		}
 	}
 }

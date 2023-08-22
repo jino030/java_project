@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//1. 파일에 저장하는 방식
 public class BoardServiceImpl implements BoardService {
 
 	List<Board> boardList = new ArrayList<>();
