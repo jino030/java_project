@@ -174,10 +174,14 @@ public class BoardApp {
 		} else {
 			// 게시글 출력
 			System.out.println("♥──────────────────────────────────────────────────────♥");
+			System.out.println("♥                      Board info                      ♥");
+			System.out.println("♥──────────────────────────────────────────────────────♥");
 			System.out.println(result.showInfo());
 			System.out.println("♥──────────────────────────────────────────────────────♥");
 
 			// 댓글출력 메서드 호출
+			System.out.println("♥                      Reply info                      ♥");
+			System.out.println("♥──────────────────────────────────────────────────────♥");
 			printReply(brdNo);
 			System.out.println("♥──────────────────────────────────────────────────────♥");
 		}
@@ -189,9 +193,9 @@ public class BoardApp {
 		// 댓글기능 추가..
 		// 댓글입력 옵션 추가
 		int repBrdNo = Integer.parseInt(brdNo);
-		String repMode = printString("[댓글입력(i), 초기화면(q)]");
+		String repMode = printString("[댓글입력(i), 댓글삭제(d), 초기화면(q)]");
 		if (repMode.equals("i")) {
-			// 댓글입력 받기
+			// 댓글 입력
 			String repContent = printString("댓글작성");
 			System.out.println("작성자: " + id);
 			// 댓글정보 Reply 객체에 저장
@@ -202,6 +206,10 @@ public class BoardApp {
 			} else {
 				System.out.println("댓글을 등록하지 못했습니다.");
 			}
+			
+		} else if(repMode.equals("d")) {
+			// 댓글 삭제
+			removeReply();
 		}
 	}
 
@@ -210,9 +218,26 @@ public class BoardApp {
 		List<Reply> rlist = rservice.list();
 		for (Reply r : rlist) {
 			if (r.getBrdNo() == Integer.parseInt(brdNo)) {
-				System.out.print(" ㄴ");
-				System.out.println(r.toString());
+				System.out.println(r.replyInfo());
+				//System.out.println(r.toString());
 			}
+		}
+	}
+	
+	void removeReply() {
+		// 삭제할 댓글번호 받기
+		String repNo = printString("댓글번호");
+		// 해당 댓글의 작성자와 로그인 id가 일치하는지 검증
+		String userId = rservice.getResponseUser(Integer.parseInt(repNo));
+		
+		if (!userId.equals(id)) {
+			System.out.println("자신의 댓글만 삭제 가능합니다.");
+			return; // 불일치 : 메서드의 실행 중지
+		}
+
+		// 일치하면 실행
+		if (rservice.remove(Integer.parseInt(repNo))) { // 정상적으로 삭제되면 true, 아니면 false 반환
+			System.out.println("정상적으로 삭제되었습니다.");
 		}
 	}
 }

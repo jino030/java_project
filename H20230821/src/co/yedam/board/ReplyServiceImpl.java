@@ -53,7 +53,23 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public boolean remove(int repNo) {
+		for(int i=0; i<replyList.size(); i++) {
+			if(replyList.get(i).getrepNo() == repNo) {
+				replyList.remove(i);
+				return true;
+			}
+		}
 		return false;
+	}
+
+	@Override
+	public String getResponseUser(int repNo) {
+		for (int i = 0; i < replyList.size(); i++) {
+			if(repNo == replyList.get(i).getrepNo()) {
+				return replyList.get(i).getrepWriter();
+			}
+		}
+		return null;
 	}
 
 	// 종료시 댓글내용 파일로 저장

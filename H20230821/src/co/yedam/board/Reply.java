@@ -62,5 +62,9 @@ public class Reply implements java.io.Serializable {
 		return "Reply [repNo=" + repNo + ", brdNo=" + brdNo + ", repContent=" + repContent + ", repWriter=" + repWriter
 				+ "]";
 	}
+	
+	public String replyInfo() {
+		return "  ㄴ[Reply] " + repNo + ". " + repContent + "(" + repWriter + ")";
+	}
 
 }
