@@ -9,7 +9,6 @@ public class BoardApp {
 	Scanner scn = new Scanner(System.in);
 	BoardService service = new BoardServiceJdbc(); // 방식에따라 구현체만 변경해주면 된다.
 	UserService uservice = new UserServiceJdbc();
-	ReplyService rservice = new ReplyServiceImpl();
 	String id = "";
 
 	public void start() {
@@ -64,7 +63,7 @@ public class BoardApp {
 
 			case 9:
 				service.save();
-				rservice.save();
+				//rservice.save();
 				System.out.println("종료합니다.");
 				run = false;
 				break;
@@ -169,6 +168,7 @@ public class BoardApp {
 	void boardDetail() {
 		String brdNo = printString("번호입력");
 		Board result = service.search(Integer.parseInt(brdNo));
+		ReplyApp app = new ReplyApp(Integer.parseInt(brdNo));
 		if (result == null) {
 			System.out.println("해당글번호가 없습니다.");
 		} else {
@@ -182,49 +182,59 @@ public class BoardApp {
 			// 댓글출력 메서드 호출
 			System.out.println("♥                      Reply info                      ♥");
 			System.out.println("♥──────────────────────────────────────────────────────♥");
-			printReply(brdNo);
+			app.printReply();
 			System.out.println("♥──────────────────────────────────────────────────────♥");
 		}
 
-		reply(brdNo); // 댓글등록 메서드 호출
-	}
-
-	void reply(String brdNo) {
-		// 댓글기능 추가..
-		// 댓글입력 옵션 추가
-		int repBrdNo = Integer.parseInt(brdNo);
-		String repMode = printString("[댓글입력(i), 댓글삭제(d), 초기화면(q)]");
-		if (repMode.equals("i")) {
-			// 댓글 입력
-			String repContent = printString("댓글작성");
-			System.out.println("작성자: " + id);
-			// 댓글정보 Reply 객체에 저장
-			Reply reply = new Reply(repBrdNo, repContent, id);
-
-			if (rservice.add(reply)) {
-				System.out.println("댓글이 정상적으로 등록되었습니다.");
-			} else {
-				System.out.println("댓글을 등록하지 못했습니다.");
-			}
-			
-		} else if(repMode.equals("d")) {
-			// 댓글 삭제
-			removeReply();
-		}
-	}
-
-	void printReply(String brdNo) {
-		// 댓글 출력(입력한 게시글 번호와 일치하는 댓글)
-		List<Reply> rlist = rservice.list();
-		for (Reply r : rlist) {
-			if (r.getBrdNo() == Integer.parseInt(brdNo)) {
-				System.out.println(r.replyInfo());
-				//System.out.println(r.toString());
-			}
-		}
+		app.reply(); // 댓글등록 메서드 호출
 	}
 	
-	void removeReply() {
+	// 중첩클래스 사용해보기..
+	class ReplyApp {
+		ReplyService rservice = new ReplyServiceImpl();
+		private int brdNo;
+		
+		ReplyApp(int brdNo){
+			this.brdNo = brdNo;
+		}
+
+		void reply() {
+			// 댓글기능 추가..
+			// 댓글입력 옵션 추가
+			int repBrdNo = brdNo;
+			String repMode = printString("[댓글입력(i), 댓글삭제(d), 초기화면(q)]");
+			if (repMode.equals("i")) {
+				// 댓글 입력
+				String repContent = printString("댓글작성");
+				System.out.println("작성자: " + id);
+				// 댓글정보 Reply 객체에 저장
+				Reply reply = new Reply(repBrdNo, repContent, id);
+	
+				if (rservice.add(reply)) {
+					System.out.println("댓글이 정상적으로 등록되었습니다.");
+					rservice.save();
+				} else {
+					System.out.println("댓글을 등록하지 못했습니다.");
+				}
+				
+			} else if(repMode.equals("d")) {
+				// 댓글 삭제
+				removeReply();
+				rservice.save();
+			}
+		}
+	
+		void printReply() {
+			// 댓글 출력(입력한 게시글 번호와 일치하는 댓글)
+			List<Reply> rlist = rservice.list();
+			for (Reply r : rlist) {
+				if (r.getBrdNo() == brdNo) {
+					System.out.println(r.replyInfo());
+				}
+			}
+		}
+		
+		void removeReply() {
 		// 삭제할 댓글번호 받기
 		String repNo = printString("댓글번호");
 		// 해당 댓글의 작성자와 로그인 id가 일치하는지 검증
@@ -239,5 +249,7 @@ public class BoardApp {
 		if (rservice.remove(Integer.parseInt(repNo))) { // 정상적으로 삭제되면 true, 아니면 false 반환
 			System.out.println("정상적으로 삭제되었습니다.");
 		}
+	}
+
 	}
 }
