@@ -90,12 +90,12 @@ public class Board implements java.io.Serializable {
 	
 	public String showInfo() {
 		Date date = updateDate == null ? writeDate : updateDate;
-		String result = "글번호 [" + brdNo + "] "
-				+ "작성자 [" + brdWriter + "]\n"
-				+ "제   목 [" + brdTitle + "]\n"
-				+ "내   용 [" + brdContent + "]\n"
-				+ "작성일자 [" + sdf.format(writeDate) + "]\n"
-				+ "수정일자 [" + sdf.format(date) + "]";
+		String result = " ♬ 글번호 [" + brdNo + "] "
+				+ " ♬ 작성자 [" + brdWriter + "]\n"
+				+ " ♬ 제   목 [" + brdTitle + "]\n"
+				+ " ♬ 내   용 [" + brdContent + "]\n"
+				+ " ♬ 작성일자 [" + sdf.format(writeDate) + "]\n"
+				+ " ♬ 수정일자 [" + sdf.format(date) + "]";
 		
 		
 		return result;
