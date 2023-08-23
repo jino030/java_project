@@ -8,24 +8,27 @@ public class BoardApp {
 
 	Scanner scn = new Scanner(System.in);
 	BoardService service = new BoardServiceJdbc(); // 방식에따라 구현체만 변경해주면 된다.
-	UserService uservice = new UserServiceImpl();
+	UserService uservice = new UserServiceJdbc();
 	String id = "";
 
 	public void start() {
 		// 사용자 체크
-//		while(true){
-//			User user = new User();
-//			id = printString("id");
-//			String pw = printString("pw");
-//			user.setId(id);
-//			user.setPw(pw);
-//			
-//			if(uservice.checkLogin(user)) {
-//				System.out.println("[O] 로그인 성공!\n");
-//				break;
-//			}
-//			System.out.println("[X] 로그인 실패!\n");
-//		}
+		while(true){
+			// 사용자에게 입력받기
+			User user = new User();
+			id = printString("id");
+			String pw = printString("pw");
+			user.setId(id);
+			user.setPw(pw);
+			
+			// 입력받은값과 저장된 비교하기
+			User userInfo = uservice.checkLogin(user);
+			if(userInfo != null) {
+				System.out.println(userInfo.getName() + "님, 환영합니다!");
+				break;
+			}
+			System.out.println("[X] 로그인 실패!\n");
+		}
 
 		boolean run = true;
 
@@ -83,6 +86,8 @@ public class BoardApp {
 
 		if (service.add(board)) { // 정상적으로 등록되면 true, 아니면 false 반환
 			System.out.println("정상적으로 등록되었습니다.");
+		} else {
+			System.out.println("등록에 실패했습니다.");
 		}
 	}
 
@@ -119,15 +124,21 @@ public class BoardApp {
 	}
 
 	void modify() {
+		// 수정하고자하는 번호 입력받기
 		String brdNo = printString("번호입력");
+		
+		// 해당 게시들의 작성자와 로그인 id가 일치하는지 검증
+		String userId = service.getResponseUser(Integer.parseInt(brdNo));
+		if(!userId.equals(id)) {
+			System.out.println("권한이 없습니다.");
+			return; // 불일치 : 메서드의 실행 중지
+		}
+		
+		// 일치하면 실행
 		String content = printString("내용입력");
-		System.out.println("here1");
 		Board brd = new Board();
-		System.out.println("here2");
 		brd.setBrdNo(Integer.parseInt(brdNo));
-		System.out.println("here3");
 		brd.setBrdContent(content);
-		System.out.println("here4");
 
 		if (service.modify(brd)) { // 정상적으로 수정되면 true, 아니면 false 반환
 			System.out.println("정상적으로 수정되었습니다.");
@@ -137,7 +148,17 @@ public class BoardApp {
 	}
 
 	void remove() {
+		// 수정하고자하는 번호 입력받기
 		String brdNo = printString("번호입력");
+		
+		// 해당 게시들의 작성자와 로그인 id가 일치하는지 검증
+		String userId = service.getResponseUser(Integer.parseInt(brdNo));
+		if(!userId.equals(id)) {
+			System.out.println("권한이 없습니다.");
+			return; // 불일치 : 메서드의 실행 중지
+		}
+		
+		// 일치하면 실행
 		if (service.remove(Integer.parseInt(brdNo))) { // 정상적으로 삭제되면 true, 아니면 false 반환
 			System.out.println("정상적으로 삭제되었습니다.");
 		}

@@ -12,11 +12,11 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
 
 	List<Board> boardList = new ArrayList<>();
-	
+
 	public BoardServiceImpl() {
 		init();
 	}
-	
+
 	private void init() {
 		try {
 			FileInputStream fis = new FileInputStream("C:/temp/board.dat");
@@ -62,14 +62,14 @@ public class BoardServiceImpl implements BoardService {
 		// 5page => 20 ~ 25;
 		// 23개밖에 없으면
 		for (int i = 0; i < boardList.size(); i++) { // i = 0; i < 23 i++
-			if(i >= start && i < end) { //i >= 21 && i < 25
+			if (i >= start && i < end) { // i >= 21 && i < 25
 				pageList.add(boardList.get(i)); // pageList.add(boardList.get(23));
 			}
 		}
 
 		return pageList;
 	}
-	
+
 	@Override
 	public int getTotal() {
 		return boardList.size();
@@ -127,6 +127,16 @@ public class BoardServiceImpl implements BoardService {
 			System.out.println("파일저장 실패!");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getResponseUser(int brdNo) {
+		for (int i = 0; i > boardList.size(); i++) {
+			if(brdNo == boardList.get(i).getBrdNo()) {
+				return boardList.get(i).getBrdWriter();
+			}
+		}
+		return null;
 	}
 
 }

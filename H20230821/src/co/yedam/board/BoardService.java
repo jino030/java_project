@@ -27,4 +27,7 @@ public interface BoardService {
 	// 종료
 	public void save();
 	
+	// 글번호(input) => 작성자(output)
+	public String getResponseUser(int brdNo);
+	
 }

@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
 	List<User> userList = new ArrayList<>();
 
 	@Override
-	public boolean checkLogin(User user) {
+	public User checkLogin(User user) {
 
 		// 파일에 저장된 정보 => userList.add
 		File file = new File("C:/temp/users.txt");
@@ -47,10 +47,10 @@ public class UserServiceImpl implements UserService {
 		for (int i = 0; i < userList.size(); i++) {
 			if(user.getId().equals(userList.get(i).getId()) && //
 					user.getPw().equals(userList.get(i).getPw())) {
-				return true;
+				return userList.get(i);
 			}
 		}
-		return false;
+		return null;
 	}
 
 }
