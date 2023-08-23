@@ -9,21 +9,22 @@ public class BoardApp {
 	Scanner scn = new Scanner(System.in);
 	BoardService service = new BoardServiceJdbc(); // 방식에따라 구현체만 변경해주면 된다.
 	UserService uservice = new UserServiceJdbc();
+	ReplyService rservice = new ReplyServiceImpl();
 	String id = "";
 
 	public void start() {
 		// 사용자 체크
-		while(true){
+		while (true) {
 			// 사용자에게 입력받기
 			User user = new User();
 			id = printString("id");
 			String pw = printString("pw");
 			user.setId(id);
 			user.setPw(pw);
-			
+
 			// 입력받은값과 저장된 비교하기
 			User userInfo = uservice.checkLogin(user);
-			if(userInfo != null) {
+			if (userInfo != null) {
 				System.out.println(userInfo.getName() + "님, 환영합니다!");
 				break;
 			}
@@ -63,6 +64,7 @@ public class BoardApp {
 
 			case 9:
 				service.save();
+				rservice.save();
 				System.out.println("종료합니다.");
 				run = false;
 				break;
@@ -126,14 +128,14 @@ public class BoardApp {
 	void modify() {
 		// 수정하고자하는 번호 입력받기
 		String brdNo = printString("번호입력");
-		
+
 		// 해당 게시들의 작성자와 로그인 id가 일치하는지 검증
 		String userId = service.getResponseUser(Integer.parseInt(brdNo));
-		if(!userId.equals(id)) {
+		if (!userId.equals(id)) {
 			System.out.println("권한이 없습니다.");
 			return; // 불일치 : 메서드의 실행 중지
 		}
-		
+
 		// 일치하면 실행
 		String content = printString("내용입력");
 		Board brd = new Board();
@@ -150,14 +152,14 @@ public class BoardApp {
 	void remove() {
 		// 수정하고자하는 번호 입력받기
 		String brdNo = printString("번호입력");
-		
+
 		// 해당 게시들의 작성자와 로그인 id가 일치하는지 검증
 		String userId = service.getResponseUser(Integer.parseInt(brdNo));
-		if(!userId.equals(id)) {
+		if (!userId.equals(id)) {
 			System.out.println("권한이 없습니다.");
 			return; // 불일치 : 메서드의 실행 중지
 		}
-		
+
 		// 일치하면 실행
 		if (service.remove(Integer.parseInt(brdNo))) { // 정상적으로 삭제되면 true, 아니면 false 반환
 			System.out.println("정상적으로 삭제되었습니다.");
@@ -170,7 +172,47 @@ public class BoardApp {
 		if (result == null) {
 			System.out.println("해당글번호가 없습니다.");
 		} else {
+			// 게시글 출력
+			System.out.println("♥──────────────────────────────────────────────────────♥");
 			System.out.println(result.showInfo());
+			System.out.println("♥──────────────────────────────────────────────────────♥");
+
+			// 댓글출력 메서드 호출
+			printReply(brdNo);
+			System.out.println("♥──────────────────────────────────────────────────────♥");
+		}
+
+		reply(brdNo); // 댓글등록 메서드 호출
+	}
+
+	void reply(String brdNo) {
+		// 댓글기능 추가..
+		// 댓글입력 옵션 추가
+		int repBrdNo = Integer.parseInt(brdNo);
+		String repMode = printString("[댓글입력(i), 초기화면(q)]");
+		if (repMode.equals("i")) {
+			// 댓글입력 받기
+			String repContent = printString("댓글작성");
+			System.out.println("작성자: " + id);
+			// 댓글정보 Reply 객체에 저장
+			Reply reply = new Reply(repBrdNo, repContent, id);
+
+			if (rservice.add(reply)) {
+				System.out.println("댓글이 정상적으로 등록되었습니다.");
+			} else {
+				System.out.println("댓글을 등록하지 못했습니다.");
+			}
+		}
+	}
+
+	void printReply(String brdNo) {
+		// 댓글 출력(입력한 게시글 번호와 일치하는 댓글)
+		List<Reply> rlist = rservice.list();
+		for (Reply r : rlist) {
+			if (r.getBrdNo() == Integer.parseInt(brdNo)) {
+				System.out.print(" ㄴ");
+				System.out.println(r.toString());
+			}
 		}
 	}
 }
