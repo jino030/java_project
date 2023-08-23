@@ -1,7 +1,5 @@
 package co.yedam.board;
 
-import java.util.List;
-
 //기능 => 댓글등록, 댓글목록, 댓글삭제 : ReplyService.java(interface) => ReplyServiceImple || ReplyServiceJdbc
 
 public interface ReplyService {
@@ -10,7 +8,7 @@ public interface ReplyService {
 	public boolean add(Reply reply);
 
 	// 댓글목록
-	public List<Reply> list();
+	public void list(int brdNo);
 
 	// 댓글삭제
 	public boolean remove(int repNo);

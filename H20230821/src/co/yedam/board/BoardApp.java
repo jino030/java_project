@@ -226,12 +226,7 @@ public class BoardApp {
 	
 		void printReply() {
 			// 댓글 출력(입력한 게시글 번호와 일치하는 댓글)
-			List<Reply> rlist = rservice.list();
-			for (Reply r : rlist) {
-				if (r.getBrdNo() == brdNo) {
-					System.out.println(r.replyInfo());
-				}
-			}
+			rservice.list(brdNo);
 		}
 		
 		void removeReply() {

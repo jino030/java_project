@@ -47,8 +47,12 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public List<Reply> list() {
-		return replyList;
+	public void list(int brdNo) {
+		for (Reply r : replyList) {
+			if (r.getBrdNo() == brdNo) {
+				System.out.println(r.replyInfo());
+			}
+		}
 	}
 
 	@Override
