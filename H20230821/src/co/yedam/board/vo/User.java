@@ -1,4 +1,4 @@
-package co.yedam.board;
+package co.yedam.board.vo;
 
 public class User {
 	private String id;

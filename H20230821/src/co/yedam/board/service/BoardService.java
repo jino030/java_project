@@ -1,6 +1,8 @@
-package co.yedam.board;
+package co.yedam.board.service;
 
 import java.util.List;
+
+import co.yedam.board.vo.Board;
 
 // 1. 파일에 저장하는 방식 : 프로그램을 종료, 실행할때 저장.출력.
 // 2. DB에 저장하는 방식

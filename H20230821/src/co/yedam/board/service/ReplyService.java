@@ -1,4 +1,6 @@
-package co.yedam.board;
+package co.yedam.board.service;
+
+import co.yedam.board.vo.Reply;
 
 //기능 => 댓글등록, 댓글목록, 댓글삭제 : ReplyService.java(interface) => ReplyServiceImple || ReplyServiceJdbc
 

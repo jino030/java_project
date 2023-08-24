@@ -1,4 +1,4 @@
-package co.yedam.board;
+package co.yedam.board.vo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

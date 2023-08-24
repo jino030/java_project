@@ -1,7 +1,17 @@
-package co.yedam.board;
+package co.yedam.board.control;
 
 import java.util.List;
 import java.util.Scanner;
+
+import co.yedam.board.service.BoardService;
+import co.yedam.board.service.BoardServiceJdbc;
+import co.yedam.board.service.ReplyService;
+import co.yedam.board.service.ReplyServiceImpl;
+import co.yedam.board.service.UserService;
+import co.yedam.board.service.UserServiceJdbc;
+import co.yedam.board.vo.Board;
+import co.yedam.board.vo.Reply;
+import co.yedam.board.vo.User;
 
 // 컨트롤, 뷰 역할..
 public class BoardApp {

@@ -1,4 +1,4 @@
-package co.yedam.board;
+package co.yedam.board.vo;
 
 //댓글기능
 //3번글 테스트 uuser3
