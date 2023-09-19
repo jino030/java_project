@@ -16,7 +16,7 @@ public interface ReplyService {
 	// 댓글번호 받아오기
 	public String getResponseUser(int repNo);
 
-	// 종료시 댓글내용 파일로 저장 함
+	// 종료시 댓글내용 파일로 저장 함 오
 	public void save();
 
 }
