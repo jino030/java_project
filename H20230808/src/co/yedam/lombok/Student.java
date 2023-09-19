@@ -1,8 +1,8 @@
 package co.yedam.lombok;
 
-//import lombok.Data;
+import lombok.Data;
 
-//@Data
+@Data
 public class Student {
 	private int stdNo;
 	private String stdName;
